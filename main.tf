@@ -36,12 +36,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-${var.application}-${var.environment}-${var.location_code}"
+  name     = "${var.application}-${var.environment}-${var.location_code}-rg"
   location = var.location
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "rg-${var.application}-${var.environment}-${var.location_code}"
+  name                = "${var.application}-${var.environment}-${var.location_code}-rg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   dns_prefix          = "labaks"
