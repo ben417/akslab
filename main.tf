@@ -73,7 +73,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = azurerm_resource_group.rg.name
   dns_prefix          = "labaks"
 
-  #  automatic_channel_upgrade = stable
+  automatic_channel_upgrade = stable
 
   default_node_pool {
     name       = "default"
@@ -81,16 +81,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vm_size    = "Standard_D2_v2"
   }
 
+  network_policy = "calico"
+
   identity {
     type = "SystemAssigned"
   }
 
-  #  role_based_access_control {
-  #    enabled = true
-  #    azure_active_directory {
-  #      managed = true
-  #    }
-  #  }
+  role_based_access_control {
+    enabled = true
+  }
 
   tags = local.tags
 }
