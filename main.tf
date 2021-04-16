@@ -73,7 +73,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = azurerm_resource_group.rg.name
   dns_prefix          = "labaks"
 
-  automatic_channel_upgrade = "stable"
+  # automatic_channel_upgrade = "stable"
 
   default_node_pool {
     name       = "default"
