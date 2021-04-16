@@ -1,4 +1,4 @@
 location      = "eastus"
 location_code = "eus"
-application   = "aks"
+application   = "lab"
 environment   = "test"
