@@ -27,6 +27,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=2.56.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "=3.1.0"
+    }
   }
 }
 
@@ -42,8 +46,19 @@ resource "azurerm_resource_group" "rg" {
   tags = local.tags
 }
 
+resource "random_string" "acr" {
+  keepers = {
+    value = azurerm_resource_group.rg.id
+  }
+  length  = 8
+  lower   = true
+  upper   = false
+  number  = true
+  special = false
+}
+
 resource "azurerm_container_registry" "acr" {
-  name                = "${var.application}-${var.environment}-${var.location_code}-acr"
+  name                = "${var.application}${var.environment}${var.location_code}${random_string.acr.id}acr"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "Basic"
