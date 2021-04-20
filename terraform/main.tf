@@ -22,6 +22,12 @@ locals {
 }
 
 terraform {
+  backend "azurerm" {
+    resource_group_name  = "rg-tf-backend"
+    storage_account_name = "tfbackendstorage282627"
+    container_name       = "terraform-state"
+    key                  = "terraform.tfstate"
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
