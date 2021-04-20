@@ -33,19 +33,19 @@ jobs:
     - name: terrafrom validation
       run: terraform validate
     
-    - name: checkov terraform checks
-      id: checkov
-      uses: bridgecrewio/checkov-action@master
-      with:
-        directory: '.'
-        framework: terraform
-        output_format: json
-        download_external_modules: true
-        log_level: DEBUG
+    # - name: checkov terraform checks
+    #   id: checkov
+    #   uses: bridgecrewio/checkov-action@master
+    #   with:
+    #     directory: '.'
+    #     framework: terraform
+    #     output_format: json
+    #     download_external_modules: true
+    #     log_level: DEBUG
 
-    - name: terraform plan
-      run: terraform plan
+    # - name: terraform plan
+    #   run: terraform plan
     
-    - name: terraform apply
-      run: terraform apply -auto-approve
+    # - name: terraform apply
+    #   run: terraform apply -auto-approve
 
