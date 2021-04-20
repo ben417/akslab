@@ -5,7 +5,7 @@ on:
 
 jobs:
   terraform:
-    name: terraform apply
+    name: build infrastructure
     runs-on: ubuntu-latest
     env:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
@@ -26,12 +26,15 @@ jobs:
     
     - name: terraform initialization
       run: terraform init
+      working-directory: ./terraform
     
     - name: terraform format check
       run: terraform fmt -check
+      working-directory: ./terraform
     
     - name: terrafrom validation
       run: terraform validate
+      working-directory: ./terraform
     
     # - name: checkov terraform checks
     #   id: checkov
