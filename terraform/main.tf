@@ -67,11 +67,29 @@ resource "azurerm_container_registry" "acr" {
   tags = local.tags
 }
 
+resource "azurerm_log_analytics_workspace" "log" {
+  name                = "${var.application}-${var.environment}-${var.location_code}-log"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "${var.application}-${var.environment}-${var.location_code}-aks"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   dns_prefix          = "labaks"
+
+  addon_profile {
+    oms_agent {
+      enabled                    = true
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.log.id
+    }
+    azure_policy {
+      enabled = true
+    }
+  }
 
   # automatic_channel_upgrade = "stable"
 
@@ -94,12 +112,27 @@ resource "azurerm_kubernetes_cluster" "aks" {
     enabled = true
   }
 
+  api_server_authorized_ip_ranges = [
+    "174.109.109.48/32"
+  ]
+
   tags = local.tags
+
+  #checkov:skip=CKV_AZURE_115:The api_server_authorized_ip_ranges paramter is specified
+  #checkov:skip=CKV_AZURE_117:Azure managed disk encryption is used
 }
 
 resource "azurerm_role_assignment" "role_assignment" {
   scope                = azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+}
+
+output "aks_client_cert" {
+  value = azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate
+}
+
+output "aks_client_config" {
+  value = azurerm_kubernetes_cluster.aks.kube_config_raw
 }
 
