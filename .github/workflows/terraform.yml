@@ -18,33 +18,33 @@ jobs:
         shell: bash
     
     steps:
-    - name: checkout repository
+    - name: Checkout Repository
       uses: actions/checkout@v2
     
-    - name: terraform setup
+    - name: Terraform Setup
       uses: hashicorp/setup-terraform@v1
     
-    - name: terraform initialization
+    - name: Terraform Initialization
       run: terraform init
       working-directory: ./terraform
     
-    - name: terraform format check
+    - name: Terraform Format Check
       run: terraform fmt -check
       working-directory: ./terraform
     
-    - name: terrafrom validation
+    - name: Terrafrom Validation
       run: terraform validate
       working-directory: ./terraform
     
-    # - name: checkov terraform checks
-    #   id: checkov
-    #   uses: bridgecrewio/checkov-action@master
-    #   with:
-    #     directory: '.'
-    #     framework: terraform
-    #     output_format: json
-    #     download_external_modules: true
-    #     log_level: DEBUG
+    - name: Checkov Policy Checks
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: '.'
+        framework: terraform
+        output_format: json
+        download_external_modules: true
+        log_level: DEBUG
 
     # - name: terraform plan
     #   run: terraform plan
