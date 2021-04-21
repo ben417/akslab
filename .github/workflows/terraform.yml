@@ -25,7 +25,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
     
     - name: Terraform Initialization
-      run: terraform init
+      run: terraform init -input false
       working-directory: ./terraform
     
     - name: Terraform Format Check
@@ -46,11 +46,11 @@ jobs:
         log_level: DEBUG
 
     - name: terraform plan
-      run: terraform plan -out plan.tfplan
+      run: terraform plan -out plan.tfplan -input false
       working-directory: ./terraform
     
     - name: terraform apply
-      run: terraform apply plan.tfplan -auto-approve
+      run: terraform apply plan.tfplan -input false -auto-approve
       working-directory: ./terraform
 
 
