@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  terraform:
+  deploy:
     name: build infrastructure
     runs-on: ubuntu-latest
     env:
@@ -45,10 +45,10 @@ jobs:
         download_external_modules: true
         log_level: DEBUG
 
-    # - name: terraform plan
-    #   run: terraform plan
+    - name: terraform plan
+      run: terraform plan -out plan.tfplan
     
-    # - name: terraform apply
-    #   run: terraform apply -auto-approve
+    - name: terraform apply
+      run: terraform apply plan.tfplan -auto-approve
 
 
