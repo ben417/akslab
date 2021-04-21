@@ -50,7 +50,7 @@ jobs:
       working-directory: ./terraform
     
     - name: Terraform Apply
-      run: terraform apply plan.tfplan -input=false -auto-approve
+      run: terraform apply -input=false -auto-approve plan.tfplan
       working-directory: ./terraform
 
 
