@@ -45,11 +45,11 @@ jobs:
         download_external_modules: true
         log_level: DEBUG
 
-    - name: terraform plan
+    - name: Terraform Plan
       run: terraform plan -out plan.tfplan -input=false
       working-directory: ./terraform
     
-    - name: terraform apply
+    - name: Terraform Apply
       run: terraform apply plan.tfplan -input=false -auto-approve
       working-directory: ./terraform
 

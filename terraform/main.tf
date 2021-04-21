@@ -134,11 +134,11 @@ resource "azurerm_role_assignment" "role_assignment" {
   principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
 }
 
-output "aks_client_cert" {
+/* output "aks_client_cert" {
   value = azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate
 }
 
 output "aks_client_config" {
   value = azurerm_kubernetes_cluster.aks.kube_config_raw
-}
+} */
 
